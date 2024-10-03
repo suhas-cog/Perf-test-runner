@@ -58,5 +58,5 @@ jobs:
       - name: Deploy JMeter HTML Report
         uses: suhas-cog/Perf-test-runner@v3
         with:
-          github_token: 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
+          gh_token: ${{ secrets.gh_token }}
           publish_dir: ${{ env.WORKING_DIRECTORY }}/graph_results
