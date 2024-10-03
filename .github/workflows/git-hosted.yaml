@@ -56,7 +56,7 @@ jobs:
               Performance/graph_results
 
       - name: Deploy JMeter HTML Report
-        uses: peaceiris/actions-gh-pages@v3
+        uses: suhas-cog/Perf-test-runner@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: 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
           publish_dir: ${{ env.WORKING_DIRECTORY }}/graph_results
