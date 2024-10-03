@@ -41,7 +41,7 @@ jobs:
          
       - name: Run Performance Tests
         run: |
-          $GITHUB_WORKSPACE/apache-jmeter-5.5/bin/./jmeter.sh -Jthreads=$JMETER_THREADS -Jloadtime=$JMETER_DURATION -n -t ${{ env.WORKING_DIRECTORY }}/filename.jmx -l ${{ env.WORKING_DIRECTORY }}/result.jtl
+          $GITHUB_WORKSPACE/apache-jmeter-5.5/bin/./jmeter.sh -Jthreads=$JMETER_THREADS -Jloadtime=$JMETER_DURATION -n -t ${{ env.WORKING_DIRECTORY }}/sample.jmx -l ${{ env.WORKING_DIRECTORY }}/result.jtl
           
           sudo java -jar $GITHUB_WORKSPACE/apache-jmeter-5.5/lib/cmdrunner-2.2.1.jar --tool Reporter --generate-csv aggregate_report.csv --input-jtl ${{ env.WORKING_DIRECTORY }}/result.jtl --plugin-type AggregateReport
           sudo $GITHUB_WORKSPACE/apache-jmeter-5.5/bin/./jmeter.sh -g ${{ env.WORKING_DIRECTORY }}/result.jtl -o ${{ env.WORKING_DIRECTORY }}/graph_results
