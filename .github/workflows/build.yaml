@@ -17,13 +17,13 @@ jobs:
       uses: actions/checkout@v4
       with:
         test-plan-path: Performance/sample.jmx
-        args: "jmeter -n-t -Jpath= api/users?page=1 -Jusers=10 -Jrampup=10 -Jduration=110 -e -o ./reports/html/"
+        args: "jmeter -n -t ./sample.jmx -Jpath=api/users?page=1 -Jduration=110 -e -o ./reports/html"
         
     - name: Upload Results
       uses: actions/upload-artifact@v4
       with:
         name: jmeter-results
-        path: result.jtl
+        path: sampleapi.jtl
         if-no-files-found: error
 
     - name: Upload HTML Reports
