@@ -58,5 +58,8 @@ jobs:
       - name: Deploy JMeter HTML Report
         uses: actions/upload-artifact@v3
         with:
+          name: html_test_report
+          path: |
+              Performance/graph_results
           gh_token: ${{ secrets.gh_token }}
           publish_dir: ${{ env.WORKING_DIRECTORY }}/graph_results
