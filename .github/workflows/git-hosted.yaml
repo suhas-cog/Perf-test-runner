@@ -55,8 +55,8 @@ jobs:
               aggregate_report.csv
               Performance/graph_results
 
-      - name: Deploy JMeter HTML Report
-        uses: suhas-cog/Perf-test-runner@v3
-        with:
-          gh_token: ${{ secrets.gh_token }}
-          publish_dir: ${{ env.WORKING_DIRECTORY }}/graph_results
+      # - name: Deploy JMeter HTML Report
+      #   uses: suhas-cog/Perf-test-runner@v3
+      #   with:
+      #     gh_token: ${{ secrets.gh_token }}
+      #     publish_dir: ${{ env.WORKING_DIRECTORY }}/graph_results
