@@ -1,7 +1,7 @@
 # name: Performance Testing
 
 # on:
-#   push
+#   pull_request
 
 # jobs:
 #   performance_test:
