@@ -1,9 +1,7 @@
 name: Performance Testing
 
 on:
-  push:
-    branches:
-      - feature/prashanth-perf-test
+  push
 
 jobs:
   performance_test:
