@@ -11,7 +11,7 @@ jobs:
       run: mkdir reports
       
     - name: Run JMeter Tests
-      uses: ./
+      # uses: ./
       with:
         test-plan-path: ./Performance/sample.jmx
         args: "jmeter -n-t -Jpath= api/users?page=1 -Jusers=10 -Jrampup=10 -Jduration=110 -e -o ./reports/html/"
