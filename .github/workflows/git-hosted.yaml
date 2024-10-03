@@ -56,7 +56,7 @@ jobs:
               Performance/graph_results
 
       - name: Deploy JMeter HTML Report
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           gh_token: ${{ secrets.gh_token }}
           publish_dir: ${{ env.WORKING_DIRECTORY }}/graph_results
