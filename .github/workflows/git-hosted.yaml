@@ -19,7 +19,7 @@ jobs:
       - name: Configure AWS credentials from Test account
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::739275441922:role/2302372-GITHUB-OIDC-ROLE
+          role-to-assume: arn:aws:iam::739275441922:role/Suhas-OIDC
           aws-region: us-east-1
       - name: Scale ECS cluster
         run: |
@@ -82,7 +82,7 @@ jobs:
       - name: Configure AWS credentials from Test account
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::739275441922:role/2302372-GITHUB-OIDC-ROLE
+          role-to-assume: arn:aws:iam::739275441922:role/Suhas-OIDC
           aws-region: us-east-1
       - name: Teardown ECS runner
         if: always()
