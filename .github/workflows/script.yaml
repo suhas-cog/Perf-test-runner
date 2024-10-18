@@ -8,6 +8,12 @@ jobs:
     steps:
       - name: who am I?
         run: |
-          whoami \
-          sudo su \
+          whoami 
+
+      - name: who am I?
+        run: |
+          sudo su 
+
+      - name: who am I?
+        run: |
           whoami
