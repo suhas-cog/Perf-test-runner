@@ -10,7 +10,8 @@ jobs:
       - name: Install JMeter and plugins
         run: |
           #wget apt install curl -y
-          wget --no-check-certificate -c --header "Cookie: oraclelicense=accept-securebackup-cookie" https://download.oracle.com/otn-pub/java/jdk/8u201-b09/42970487e3af4f5aa5bca3f542482c60/jdk-8u201-linux-x64.rpm
+          wget --continue --no-check-certificate -O jdk-8-linux-x64.tar.gz --header Cookie: oraclelicense=a http://download.oracle.com/otn-pub/java/jdk/8-b132/jdk-8-linux-x64.tar.gz
+          wget tar -xvf jdk-8-linux-x64.tar.gz
           wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.5.tgz
           wget tar -xvf apache-jmeter-5.5.tgz
           cd $GITHUB_WORKSPACE/apache-jmeter-5.5/lib && wget https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.2.1/cmdrunner-2.2.1.jar
