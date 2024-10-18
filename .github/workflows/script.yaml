@@ -9,14 +9,14 @@ jobs:
 
       - name: Install JMeter and plugins
         run: |
-          wget https://downloads.apache.org//jmeter/binaries/apache-jmeter-5.4.1.tgz
+          wget 'https://downloads.apache.org//jmeter/binaries/apache-jmeter-5.4.1.tgz'
           tar -xzf apache-jmeter-5.4.1.tgz
           export JMETER_HOME=$(pwd)/apache-jmeter-5.4.1
           export PATH=$JMETER_HOME/bin:$PATH
           # Install JMeter plugins
-          wget https://jmeter-plugins.org/files/packages/jpgc-casutg-2.9.zip
+          wget 'https://jmeter-plugins.org/files/packages/jpgc-casutg-2.9.zip'
           unzip jpgc-casutg-2.9.zip -d $JMETER_HOME/lib/ext
-          wget https://jmeter-plugins.org/files/packages/jpgc-dummy-0.4.zip
+          wget 'https://jmeter-plugins.org/files/packages/jpgc-dummy-0.4.zip'
           unzip jpgc-dummy-0.4.zip -d $JMETER_HOME/lib/ext
 
       - name: Jmeter version
