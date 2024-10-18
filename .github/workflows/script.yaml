@@ -1,4 +1,4 @@
-name: Performance Testing
+name: check whoami
 on:
   workflow_dispatch:
 jobs:
@@ -7,7 +7,7 @@ jobs:
 
     steps:
       - name: who am I?
-        run: >
-          whoami
-          sudo su
+        run: |
+          whoami \
+          sudo su \
           whoami
