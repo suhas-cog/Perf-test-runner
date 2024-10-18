@@ -9,12 +9,12 @@ jobs:
 
       - name: Install JMeter and plugins
         run: |
-          wget apt install curl -y
-          wget apt install -y default-jdk
-          wget curl -O https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.5.tgz
+          #wget apt install curl -y
+          wget --no-check-certificate -c --header "Cookie: oraclelicense=accept-securebackup-cookie" https://download.oracle.com/otn-pub/java/jdk/8u201-b09/42970487e3af4f5aa5bca3f542482c60/jdk-8u201-linux-x64.rpm
+          wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.5.tgz
           wget tar -xvf apache-jmeter-5.5.tgz
-          cd $GITHUB_WORKSPACE/apache-jmeter-5.5/lib && wget curl -O https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.2.1/cmdrunner-2.2.1.jar
-          cd $GITHUB_WORKSPACE/apache-jmeter-5.5/lib/ext && wget curl -O https://repo1.maven.org/maven2/kg/apc/jmeter-plugins-manager/1.6/jmeter-plugins-manager-1.6.jar
+          cd $GITHUB_WORKSPACE/apache-jmeter-5.5/lib && wget https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.2.1/cmdrunner-2.2.1.jar
+          cd $GITHUB_WORKSPACE/apache-jmeter-5.5/lib/ext && wget https://repo1.maven.org/maven2/kg/apc/jmeter-plugins-manager/1.6/jmeter-plugins-manager-1.6.jar
           cd $GITHUB_WORKSPACE/apache-jmeter-5.5/lib && wget java -jar cmdrunner-2.2.1.jar --tool org.jmeterplugins.repository.PluginManagerCMD install jpgc-synthesis,jpgc-graphs-basic,jpgc-graphs-additional,jpgc-cmd,jpgc-graphs-dist,jpgc-standard,jpgc-casutg
       
       - name: Install PerfMon Plugin
