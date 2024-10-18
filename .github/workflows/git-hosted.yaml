@@ -79,11 +79,12 @@ jobs:
           gh_token: ${{ secrets.gh_token }}
           publish_dir: ${{ env.WORKING_DIRECTORY }}/graph_results
 
-      - name: Teardown ECS runner
-        if: always()
+      - name: Configure AWS credentials from Test account
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::739275441922:role/2302372-GITHUB-OIDC-ROLE
           aws-region: us-east-1
+      - name: Teardown ECS runner
+        if: always()
         run: |
           aws ecs update-service --cluster TRPerformanceAPI --service Perf-test --desired-count 0
