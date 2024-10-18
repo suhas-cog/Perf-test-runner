@@ -10,7 +10,7 @@ jobs:
       - name: Install JMeter and plugins
         run: |
           wget https://www.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.3.tgz.sha512
-          tar -xzf apache-jmeter-5.6.3.tgz.sha512
+          tar -xvf apache-jmeter-5.6.3.tgz.sha512
           export JMETER_HOME=$(pwd)/apache-jmeter-5.6.3
           export PATH=$JMETER_HOME/bin:$PATH
           # Install JMeter plugins
