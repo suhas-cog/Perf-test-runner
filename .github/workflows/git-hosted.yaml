@@ -16,11 +16,15 @@ jobs:
       WORKING_DIRECTORY: Performance
    
     steps:
-      - name: Configure AWS credentials from Test account
+      - name: Configure AWS credentials login
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::739275441922:role/2302372-GITHUB-OIDC-ROLE
+          role-to-assume: arn:aws:iam::739275441922:role/Suhas-OIDC
           aws-region: us-east-1
+      - id: install-aws-cli
+        uses: unfor19/install-aws-cli-action@v1
+        with:
+          version: 1
       - name: Scale ECS cluster
         run: |
           aws ecs update-service --cluster TRPerformanceAPI --service Perf-test --desired-count 3
@@ -82,7 +86,7 @@ jobs:
       - name: Configure AWS credentials from Test account
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::739275441922:role/2302372-GITHUB-OIDC-ROLE
+          role-to-assume: arn:aws:iam::739275441922:role/Suhas-OIDC
           aws-region: us-east-1
       - name: Teardown ECS runner
         if: always()
