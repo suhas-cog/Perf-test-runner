@@ -6,14 +6,20 @@ jobs:
     runs-on: ecs-pt-runner
 
     steps:
-      - name: who am I?
-        run: |
-          whoami 
 
-      - name: who am I?
+      - name: Install JMeter and plugins
         run: |
-          sudo su 
+          wget https://downloads.apache.org//jmeter/binaries/apache-jmeter-5.4.1.tgz
+          tar -xzf apache-jmeter-5.4.1.tgz
+          export JMETER_HOME=$(pwd)/apache-jmeter-5.4.1
+          export PATH=$JMETER_HOME/bin:$PATH
+          # Install JMeter plugins
+          wget https://jmeter-plugins.org/files/packages/jpgc-casutg-2.9.zip
+          unzip jpgc-casutg-2.9.zip -d $JMETER_HOME/lib/ext
+          wget https://jmeter-plugins.org/files/packages/jpgc-dummy-0.4.zip
+          unzip jpgc-dummy-0.4.zip -d $JMETER_HOME/lib/ext
 
-      - name: who am I?
+      - name: Jmeter version
         run: |
-          whoami
+          jmeter --version
+  
