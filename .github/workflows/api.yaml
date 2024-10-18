@@ -1,0 +1,82 @@
+# name: CI Workflow
+
+# on:
+#   workflow_dispatch:
+#     branches:
+#       - main
+
+# jobs:
+#   build:
+#     runs-on: self-hosted
+
+#     steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v2
+
+#     - name: Scale ECS cluster
+#       run: |
+#         aws ecs update-service --cluster your-cluster-name --service your-service-name --desired-count 10
+#         # Wait for the ECS cluster to scale up
+#         while [ "$(aws ecs describe-services --cluster your-cluster-name --services your-service-name --query 'services[0].runningCount' --output text)" -lt 10 ]; do
+#           echo "Waiting for ECS cluster to scale up..."
+#           sleep 10
+#         done
+#         echo "ECS cluster scaled to 10 nodes."
+#       env:
+#         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+#     - name: Set up JDK 11
+#       uses: actions/setup-java@v2
+#       with:
+#         java-version: '11'
+
+#     - name: Install dependencies
+#       run: |
+#         sudo apt-get update
+#         sudo apt-get install -y jq python3 python3-pip
+#         pip3 install -r requirements.txt
+
+# #based 
+#     - name: Execute JMeter commands
+#       run: |
+#         # Add your JMeter commands here
+#         jmeter -n -t your_test_plan.jmx -l build/results.jtl 
+
+# # jtl report will present in runner we should bring back to yaml using s3(as per PT diagram)
+#     - name: Run tests
+#       run: |
+#         ./gradlew test
+#         # Assuming the .jtl file is generated in the build directory
+
+# # this script will be provided
+#     - name: Filter and convert .jtl to .csv
+#       run: |
+#         # Filter out ramp-up period and convert to CSV
+#         jq 'select(.timeStamp > RAMP_UP_END_TIME)' build/results.jtl > filtered_results.jtl
+#         # Convert filtered_results.jtl to CSV
+#         jq -r '[.timeStamp, .elapsed, .label, .responseCode, .responseMessage, .success, .bytes, .sentBytes, .grpThreads, .allThreads, .URL, .Latency, .IdleTime, .Connect] | @csv' filtered_results.jtl > results.csv
+
+# # Ensure compare_results.py and requirements.txt are present in your repository
+# #it is not needed here, it will pick the inputs csv file from s3 bucket and later compare
+#     - name: Run Python script to compare test results
+#       run: |
+#         python3 compare_results.py
+
+#     - name: Upload Allure results to AWS S3
+#       uses: actions/aws-s3@v1
+#       with:
+#         args: --acl public-read --follow-symlinks --delete
+#       env:
+#         AWS_S3_BUCKET: your-s3-bucket
+#         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#         SOURCE_DIR: allure-results/
+
+#     - name: Teardown ECS runner
+#       if: always()
+#       run: |
+#         aws ecs update-service --cluster your-cluster-name --service your-runner-service-name --desired-count 0
+#       env:
+#         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
