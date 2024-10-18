@@ -1,0 +1,13 @@
+name: Performance Testing
+on:
+  workflow_dispatch:
+jobs:
+  performance_test:
+    runs-on: ecs-pt-runner
+
+    steps:
+      - name: who am I?
+        run: >
+          whoami
+          sudo su
+          whoami

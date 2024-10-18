@@ -1,7 +1,7 @@
 ---
 name: Performance Testing
 on:
-  workflow_dispatch: null
+  workflow_dispatch:
 jobs:
   performance_test:
     runs-on: ecs-pt-runner
@@ -102,7 +102,7 @@ jobs:
       #       Performance/graph_results
       #     gh_token: ${{ secrets.gh_token }}
       #     publish_dir: ${{ env.WORKING_DIRECTORY }}/graph_results
-      
+
       - name: Configure AWS credentials from Test account
         uses: aws-actions/configure-aws-credentials@v4
         with:
