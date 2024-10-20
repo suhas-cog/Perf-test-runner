@@ -1,8 +1,8 @@
 ---
 name: Performance Testing
 on:
-  #workflow_dispatch:
-  push
+  workflow_dispatch:
+  #push
 
 jobs:
   performance_test:
