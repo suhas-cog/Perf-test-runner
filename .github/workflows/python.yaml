@@ -74,11 +74,11 @@ jobs:
           publish_dir: ${{ env.WORKING_DIRECTORY }}/graph_results
 
       - name: Filter and convert .jtl to .csv
-      run: |
-        # Filter out ramp-up period and convert to CSV
-        jq 'select(.timeStamp > RAMP_UP_END_TIME)' result1.jtl.jtl > filtered_results.jtl
-        # Convert filtered_results.jtl to CSV
-        jq -r '[.timeStamp, .elapsed, .label, .responseCode, .responseMessage, .success, .bytes, .sentBytes, .grpThreads, .allThreads, .URL, .Latency, .IdleTime, .Connect] | @csv' filtered_results.jtl > results.csv
+        run: |
+          # Filter out ramp-up period and convert to CSV
+          jq 'select(.timeStamp > RAMP_UP_END_TIME)' result1.jtl.jtl > filtered_results.jtl
+          # Convert filtered_results.jtl to CSV
+          jq -r '[.timeStamp, .elapsed, .label, .responseCode, .responseMessage, .success, .bytes, .sentBytes, .grpThreads, .allThreads, .URL, .Latency, .IdleTime, .Connect] | @csv' filtered_results.jtl > results.csv
 
       - name: Run Python script to compare test results
         run: |
