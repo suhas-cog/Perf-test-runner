@@ -3,7 +3,7 @@ name: Performance Testing
 on:
   #workflow_dispatch:
   push
-  
+
 jobs:
   performance_test:
     runs-on: ubuntu-latest #ecs-pt-runner
@@ -30,7 +30,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install awscli
           sudo apt-get install -y jq python3 python3-pip
-          pip3 install -r requirement.txt
+          pip3 install -r C:\Users\2302372\TR-workspace\Perf-test-runner\requirements.txt
   
       # - name: Scale ECS cluster
       #   run: >
