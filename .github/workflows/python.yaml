@@ -76,7 +76,9 @@ jobs:
       - name: Filter and convert .jtl to .csv
         run: |
           # Filter out ramp-up period and convert to CSV
-          jq 'select(.timeStamp > RAMP_UP_END_TIME)' result1.jtl.jtl > filtered_results.jtl
+          PERCENTILE_90=$(jq-s 'sort_by(-timeStamp) | [int(length * 0.9)] timeStamp' result1.jt1)
+          # Filter out ramp-up period and convert to SV
+          ja --argison percentile90 "$PERCENTILE_90" select(•timeStamp › $percentile90) result1.jtl
           # Convert filtered_results.jtl to CSV
           jq -r '[.timeStamp, .elapsed, .label, .responseCode, .responseMessage, .success, .bytes, .sentBytes, .grpThreads, .allThreads, .URL, .Latency, .IdleTime, .Connect] | @csv' filtered_results.jtl > results.csv
 
