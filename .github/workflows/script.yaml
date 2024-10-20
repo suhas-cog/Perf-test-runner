@@ -1,40 +1,40 @@
-name: check whoami
-on:
-  workflow_dispatch:
-jobs:
-  performance_test:
-    runs-on: ecs-pt-runner
+# name: check whoami
+# on:
+#   workflow_dispatch:
+# jobs:
+#   performance_test:
+#     runs-on: ecs-pt-runner
 
-    steps:
+#     steps:
 
-      - name: Install JMeter and plugins
-        run: |
-          RUNNER_ALLOW_RUNASROOT="1"
-          apt-get install curl -y && apt-get install sudo -y \
-          sudo apt-get update
-          # # wget --continue --no-check-certificate -O jdk-8-linux-x64.tar.gz --header Cookie: oraclelicense=a http://download.oracle.com/otn-pub/java/jdk/8-b132/jdk-8-linux-x64.tar.gz
-          # # wget tar -xvf jdk-8-linux-x64.tar.gz
-          # wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.5.tgz
-          # wget tar -xvf apache-jmeter-5.5.tgz
-          # cd $GITHUB_WORKSPACE/apache-jmeter-5.5/lib && wget https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.2.1/cmdrunner-2.2.1.jar
-          # cd $GITHUB_WORKSPACE/apache-jmeter-5.5/lib/ext && wget https://repo1.maven.org/maven2/kg/apc/jmeter-plugins-manager/1.6/jmeter-plugins-manager-1.6.jar
-          # cd $GITHUB_WORKSPACE/apache-jmeter-5.5/lib && wget java -jar cmdrunner-2.2.1.jar --tool org.jmeterplugins.repository.PluginManagerCMD install jpgc-synthesis,jpgc-graphs-basic,jpgc-graphs-additional,jpgc-cmd,jpgc-graphs-dist,jpgc-standard,jpgc-casutg
+#       - name: Install JMeter and plugins
+#         run: |
+#           RUNNER_ALLOW_RUNASROOT="1"
+#           apt-get install curl -y && apt-get install sudo -y \
+#           sudo apt-get update
+#           # # wget --continue --no-check-certificate -O jdk-8-linux-x64.tar.gz --header Cookie: oraclelicense=a http://download.oracle.com/otn-pub/java/jdk/8-b132/jdk-8-linux-x64.tar.gz
+#           # # wget tar -xvf jdk-8-linux-x64.tar.gz
+#           # wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.5.tgz
+#           # wget tar -xvf apache-jmeter-5.5.tgz
+#           # cd $GITHUB_WORKSPACE/apache-jmeter-5.5/lib && wget https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.2.1/cmdrunner-2.2.1.jar
+#           # cd $GITHUB_WORKSPACE/apache-jmeter-5.5/lib/ext && wget https://repo1.maven.org/maven2/kg/apc/jmeter-plugins-manager/1.6/jmeter-plugins-manager-1.6.jar
+#           # cd $GITHUB_WORKSPACE/apache-jmeter-5.5/lib && wget java -jar cmdrunner-2.2.1.jar --tool org.jmeterplugins.repository.PluginManagerCMD install jpgc-synthesis,jpgc-graphs-basic,jpgc-graphs-additional,jpgc-cmd,jpgc-graphs-dist,jpgc-standard,jpgc-casutg
       
-      - name: Install PerfMon Plugin
-        run: |
-          cd $GITHUB_WORKSPACE/apache-jmeter-5.5/lib
+#       - name: Install PerfMon Plugin
+#         run: |
+#           cd $GITHUB_WORKSPACE/apache-jmeter-5.5/lib
 
-          # wget https://www.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.3.tgz
-          # tar -xzf apache-jmeter-5.6.3.tgz
-          # export JMETER_HOME=$(pwd)/apache-jmeter-5.6.3
-          # export PATH=$JMETER_HOME/bin:$PATH
-          # # Install JMeter plugins
-          # # wget https://jmeter-plugins.org/files/packages/jpgc-casutg-2.9.zip
-          # # unzip jpgc-casutg-2.9.zip -d $JMETER_HOME/lib/ext
-          # # wget https://jmeter-plugins.org/files/packages/jpgc-dummy-0.4.zip
-          # # unzip jpgc-dummy-0.4.zip -d $JMETER_HOME/lib/ext
+#           # wget https://www.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.3.tgz
+#           # tar -xzf apache-jmeter-5.6.3.tgz
+#           # export JMETER_HOME=$(pwd)/apache-jmeter-5.6.3
+#           # export PATH=$JMETER_HOME/bin:$PATH
+#           # # Install JMeter plugins
+#           # # wget https://jmeter-plugins.org/files/packages/jpgc-casutg-2.9.zip
+#           # # unzip jpgc-casutg-2.9.zip -d $JMETER_HOME/lib/ext
+#           # # wget https://jmeter-plugins.org/files/packages/jpgc-dummy-0.4.zip
+#           # # unzip jpgc-dummy-0.4.zip -d $JMETER_HOME/lib/ext
 
-      - name: Jmeter version
-        run: |
-          jmeter --version
+#       - name: Jmeter version
+#         run: |
+#           jmeter --version
   
