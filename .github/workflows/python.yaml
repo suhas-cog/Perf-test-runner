@@ -55,7 +55,7 @@ jobs:
           $GITHUB_WORKSPACE/apache-jmeter-5.5/bin/./jmeter.sh -Jthreads=$JMETER_THREADS -Jloadtime=$JMETER_DURATION -n -t ${{ env.WORKING_DIRECTORY }}/sample.jmx -l ${{ env.WORKING_DIRECTORY }}/result1.jtl
           
           sudo java -jar $GITHUB_WORKSPACE/apache-jmeter-5.5/lib/cmdrunner-2.2.1.jar --tool Reporter --generate-csv aggregate_report.csv --input-jtl ${{ env.WORKING_DIRECTORY }}/result1.jtl --plugin-type AggregateReport
-          sudo $GITHUB_WORKSPACE/apache-jmeter-5.5/bin/./jmeter.sh -g ${{ env.WORKING_DIRECTORY }}/result1.jtl -o ${{ env.WORKING_DIRECTORY }}/graph_results
+          sudo $GITHUB_WORKSPACE/apache-jmeter-5.5/bin/./jmeter.sh -g ${{ env.WORKING_DIRECTORY }}/result1.jtl -o ${{ env.WORKING_DIRECTORY }}/graph_results -o ${{ env.WORKING_DIRECTORY }}/python_report
       - name: Upload JMeter Test Results
         uses: actions/upload-artifact@v3
         with:
@@ -73,6 +73,13 @@ jobs:
           gh_token: ${{ secrets.gh_token }}
           publish_dir: ${{ env.WORKING_DIRECTORY }}/graph_results
 
+      - name: Filter and convert .jtl to .csv
+      run: |
+        # Filter out ramp-up period and convert to CSV
+        jq 'select(.timeStamp > RAMP_UP_END_TIME)' result1.jtl.jtl > filtered_results.jtl
+        # Convert filtered_results.jtl to CSV
+        jq -r '[.timeStamp, .elapsed, .label, .responseCode, .responseMessage, .success, .bytes, .sentBytes, .grpThreads, .allThreads, .URL, .Latency, .IdleTime, .Connect] | @csv' filtered_results.jtl > results.csv
+
       - name: Run Python script to compare test results
         run: |
           python python.py
@@ -81,7 +88,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: comparison-report
-          path: ${{ env.WORKING_DIRECTORY }}/python_report
+          path: |
+            Performance/python_report
+            gh_token: ${{ secrets.gh_token }}
+            publish_dir: ${{ env.WORKING_DIRECTORY }}/python_report
 
       - name: Generate summary
         uses: actions/github-script@v6
