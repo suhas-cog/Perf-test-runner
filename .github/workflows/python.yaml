@@ -76,11 +76,16 @@ jobs:
       - name: Filter and convert .jtl to .csv
         run: |
           # Filter out ramp-up period and convert to CSV
-          PERCENTILE_90=$(jq-s 'sort_by(-timeStamp) | [int(length * 0.9)] timeStamp' result1.jt1)
-          # Filter out ramp-up period and convert to SV
-          ja --argison percentile90 "$PERCENTILE_90" select(•timeStamp › $percentile90) result1.jtl
+          jq 'select(.timeStamp > 0)' result1.jtl > filtered_results.jtl
           # Convert filtered_results.jtl to CSV
           jq -r '[.timeStamp, .elapsed, .label, .responseCode, .responseMessage, .success, .bytes, .sentBytes, .grpThreads, .allThreads, .URL, .Latency, .IdleTime, .Connect] | @csv' filtered_results.jtl > results.csv
+
+          # # Filter out ramp-up period and convert to CSV
+          # PERCENTILE_90=$(jq-s 'sort_by(-timeStamp) | [int(length * 0.9)] timeStamp' result1.jt1)
+          # # Filter out ramp-up period and convert to SV
+          # ja --argison percentile90 "$PERCENTILE_90" select(•timeStamp › $percentile90) result1.jtl
+          # # Convert filtered_results.jtl to CSV
+          # jq -r '[.timeStamp, .elapsed, .label, .responseCode, .responseMessage, .success, .bytes, .sentBytes, .grpThreads, .allThreads, .URL, .Latency, .IdleTime, .Connect] | @csv' filtered_results.jtl > results.csv
 
       - name: Run Python script to compare test results
         run: |
