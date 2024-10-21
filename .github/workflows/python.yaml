@@ -97,7 +97,7 @@ jobs:
 
           # Filter out ramp-up period and convert to CSV
           PERCENTILE_90=$(jq -n 'def int(x): x | floor; import "${{ env.WORKING_DIRECTORY }}/result1.jtl" as input; input | sort_by(.timeStamp) | .[int(length * 0.9)].timeStamp') 
-        # ${{ env.WORKING_DIRECTORY }}/result1.jtl)
+          # ${{ env.WORKING_DIRECTORY }}/result1.jtl)
           # Filter out ramp-up period and convert to SV
           jq --argjson percentile90 "$PERCENTILE_90" select(.timeStamp › $percentile90) ${{ env.WORKING_DIRECTORY }}/result1.jtl
           # Convert filtered_results.jtl to CSV
