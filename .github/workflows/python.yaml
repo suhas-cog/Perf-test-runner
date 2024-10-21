@@ -1,9 +1,8 @@
 name: Performance Testing
- 
+
 on:
-  workflow_dispatch:
-  push:
- 
+  push
+
 jobs:
   performance_test:
     runs-on: ubuntu-latest
@@ -11,7 +10,6 @@ jobs:
       JMETER_THREADS: 10
       JMETER_DURATION: 60
       JMETER_PATH: './sample.jmx'
-      #WORKING_DIRECTORY: Performance
  
     steps:
       - uses: actions/checkout@v4
@@ -79,38 +77,15 @@ jobs:
           path: html_report
           if-no-files-found: error has context menu
  
-    # - name: Upload JMeter Test Results
-    #     uses: actions/upload-artifact@v4
-    #     with:
-    #       name: perf_test_results
-    #       path: |
-    #           result1.jtl
-    #           aggregate_report.csv
-    #           Performance/graph_results
-    #   - name: Deploy JMeter HTML Report
-    #     uses: actions/upload-artifact@v4
-    #     with:
-    #       name: html_test_report
-    #       path: |
-    #           Performance/graph_results
-    #       gh_token: ${{ secrets.gh_token }}
-    #       publish_dir: ${{ env.WORKING_DIRECTORY }}/graph_results
- 
-    #   # - name: Download artifact perf_test_results
-    #   #   uses:
-    #   #   with:
-    #   #     name: Artifact jtl
-    #   #     path: Performance/downloads/result1.jtl
- 
       - name: Filter and convert .jtl to .csv
         run: |
-          sudo java -jar $GITHUB_WORKSPACE/apache-jmeter-5.5/lib/cmdrunner-2.2.1.jar --tool Reporter --generate-csv results.csv --input-jtl ./result1.jtl --plugin-type AggregateReport
- 
-    - name: Upload report
-      uses: actions/upload-artifact@v4
-      with:
-        name: jmeter results
-        path: results.csv
+          ./JMeterPluginsCMD.sh --generate-csv results.csv --input-jtl result1.jtl --plugin-type AggregateReport
+
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: jmeter results
+          path: results.csv
  
   comparision:
     runs-on: ubuntu-latest
