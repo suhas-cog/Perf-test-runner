@@ -107,7 +107,7 @@ jobs:
 
   comparision:
     runs-on: ubuntu-latest
-    needs: Performance Testing
+    needs: performance_test
     steps:
       - name: Download Jmeter results
         uses: actions/download-artifact@v4
