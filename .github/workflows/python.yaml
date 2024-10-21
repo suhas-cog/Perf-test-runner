@@ -56,6 +56,12 @@ jobs:
           
           sudo java -jar $GITHUB_WORKSPACE/apache-jmeter-5.5/lib/cmdrunner-2.2.1.jar --tool Reporter --generate-csv aggregate_report.csv --input-jtl ${{ env.WORKING_DIRECTORY }}/result1.jtl --plugin-type AggregateReport
           sudo $GITHUB_WORKSPACE/apache-jmeter-5.5/bin/./jmeter.sh -g ${{ env.WORKING_DIRECTORY }}/result1.jtl -o ${{ env.WORKING_DIRECTORY }}/graph_results -o ${{ env.WORKING_DIRECTORY }}/python_report
+
+      - name: Create artifacts
+        run: |
+          mkdir -p Performance/graph_results
+          echo "Hello world from file B" > Performance/graph_results/result1.jtl
+
       - name: Upload JMeter Test Results
         uses: actions/upload-artifact@v4
         with:
@@ -77,7 +83,7 @@ jobs:
         uses: ./
         with:
           name: Artifact jtl 
-          path: ~/./result.jtl
+          path: Performance/downloads/result1.jtl
 
       - name: Filter and convert .jtl to .csv
         run: |
