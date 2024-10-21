@@ -91,7 +91,7 @@ jobs:
       - name: Filter and convert .jtl to .csv
         run: |
           # Filter out ramp-up period and convert to CSV
-          jq 'select(.timeStamp > 0)' "${{ env.WORKING_DIRECTORY }}/result1.jtl > filtered_results.jtl
+          jq 'select(.timeStamp > 0)' "${{ env.WORKING_DIRECTORY }}/result1.jtl" > filtered_results.jtl
           # Convert filtered_results.jtl to CSV
           jq -r '[.timeStamp, .elapsed, .label, .responseCode, .responseMessage, .success, .bytes, .sentBytes, .grpThreads, .allThreads, .URL, .Latency, .IdleTime, .Connect] | @csv' filtered_results.jtl > results.csv
 
