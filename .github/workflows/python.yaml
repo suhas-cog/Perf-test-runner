@@ -10,8 +10,8 @@ jobs:
     env:
       JMETER_THREADS: 10
       JMETER_DURATION: 60
-      JMETER_PATH: 'Performance/sample.jmx'
-      WORKING_DIRECTORY: Performance
+      JMETER_PATH: './sample.jmx'
+      #WORKING_DIRECTORY: Performance
 
    
     steps:
@@ -56,48 +56,67 @@ jobs:
          
       - name: Run Performance Tests
         run: |
-          $GITHUB_WORKSPACE/apache-jmeter-5.5/bin/./jmeter.sh -Jthreads=$JMETER_THREADS -Jloadtime=$JMETER_DURATION -n -t ${{ env.WORKING_DIRECTORY }}/sample.jmx -l ${{ env.WORKING_DIRECTORY }}/result1.jtl
+          $GITHUB_WORKSPACE/apache-jmeter-5.5/bin/./jmeter.sh -Jthreads=$JMETER_THREADS -Jloadtime=$JMETER_DURATION -n -t ./sample.jmx -l ./result1.jtl
           
-          sudo java -jar $GITHUB_WORKSPACE/apache-jmeter-5.5/lib/cmdrunner-2.2.1.jar --tool Reporter --generate-csv aggregate_report.csv --input-jtl ${{ env.WORKING_DIRECTORY }}/result1.jtl --plugin-type AggregateReport
-          sudo $GITHUB_WORKSPACE/apache-jmeter-5.5/bin/./jmeter.sh -g ${{ env.WORKING_DIRECTORY }}/result1.jtl -o ${{ env.WORKING_DIRECTORY }}/graph_results -o ${{ env.WORKING_DIRECTORY }}/python_report
+          # sudo java -jar $GITHUB_WORKSPACE/apache-jmeter-5.5/lib/cmdrunner-2.2.1.jar --tool Reporter --generate-csv aggregate_report.csv --input-jtl ${{ env.WORKING_DIRECTORY }}/result1.jtl --plugin-type AggregateReport
+          # sudo $GITHUB_WORKSPACE/apache-jmeter-5.5/bin/./jmeter.sh -g ${{ env.WORKING_DIRECTORY }}/result1.jtl -o ${{ env.WORKING_DIRECTORY }}/graph_results -o ${{ env.WORKING_DIRECTORY }}/python_report
 
       # - name: Create artifacts
       #   run: |
       #     mkdir -p Performance/graph_results
       #     echo "Hello world from file B" > Performance/graph_results/result1.jtl
 
-      - name: Upload JMeter Test Results
-        uses: actions/upload-artifact@v4
-        with:
-          name: perf_test_results
-          path: |
-              result1.jtl
-              aggregate_report.csv
-              Performance/graph_results
-      - name: Deploy JMeter HTML Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: html_test_report
-          path: |
-              Performance/graph_results
-          gh_token: ${{ secrets.gh_token }}
-          publish_dir: ${{ env.WORKING_DIRECTORY }}/graph_results
+    - name: Upload Results
+      uses: actions/upload-artifact@v4
+      with:
+        name: jmeter-results
+        path: result1.jtl
+        if-no-files-found: error
+   # Generate an HTML Report     
+    - name: Run JMeter Tests
+      run: |
+       ls
+       jmeter -g ./result1.jtl -o ./html_report
+    # upload the HTML Reports    
+    - name: Upload HTML Reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: jmeter-reports
+        path: html_report
+        if-no-files-found: error has context menu
 
-      # - name: Download artifact perf_test_results
-      #   uses: 
-      #   with:
-      #     name: Artifact jtl 
-      #     path: Performance/downloads/result1.jtl
+    # - name: Upload JMeter Test Results
+    #     uses: actions/upload-artifact@v4
+    #     with:
+    #       name: perf_test_results
+    #       path: |
+    #           result1.jtl
+    #           aggregate_report.csv
+    #           Performance/graph_results
+    #   - name: Deploy JMeter HTML Report
+    #     uses: actions/upload-artifact@v4
+    #     with:
+    #       name: html_test_report
+    #       path: |
+    #           Performance/graph_results
+    #       gh_token: ${{ secrets.gh_token }}
+    #       publish_dir: ${{ env.WORKING_DIRECTORY }}/graph_results
 
-      - name: Filter and convert .jtl to .csv
-        run: |
-          sudo java -jar $GITHUB_WORKSPACE/apache-jmeter-5.5/lib/cmdrunner-2.2.1.jar --tool Reporter --generate-csv results.csv --input-jtl ${{ env.WORKING_DIRECTORY }}/result.jtl --plugin-type AggregateReport
+    #   # - name: Download artifact perf_test_results
+    #   #   uses: 
+    #   #   with:
+    #   #     name: Artifact jtl 
+    #   #     path: Performance/downloads/result1.jtl
 
-      - name: Upload report
-        uses: actions/upload-artifact@v4
-        with:
-          name: jmeter results
-          path: results.csv
+    - name: Filter and convert .jtl to .csv
+      run: |
+      sudo java -jar $GITHUB_WORKSPACE/apache-jmeter-5.5/lib/cmdrunner-2.2.1.jar --tool Reporter --generate-csv results.csv --input-jtl ./result1.jtl --plugin-type AggregateReport
+
+    - name: Upload report
+      uses: actions/upload-artifact@v4
+      with:
+        name: jmeter results
+        path: results.csv
 
   comparision:
     runs-on: ubuntu-latest
