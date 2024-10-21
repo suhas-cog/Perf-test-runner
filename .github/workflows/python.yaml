@@ -103,9 +103,9 @@ jobs:
     #   #     name: Artifact jtl 
     #   #     path: Performance/downloads/result1.jtl
 
-    - name: Filter and convert .jtl to .csv
-      run: |
-        sudo java -jar $GITHUB_WORKSPACE/apache-jmeter-5.5/lib/cmdrunner-2.2.1.jar --tool Reporter --generate-csv results.csv --input-jtl ./result1.jtl --plugin-type AggregateReport
+      - name: Filter and convert .jtl to .csv
+        run: |
+          sudo java -jar $GITHUB_WORKSPACE/apache-jmeter-5.5/lib/cmdrunner-2.2.1.jar --tool Reporter --generate-csv results.csv --input-jtl ./result1.jtl --plugin-type AggregateReport
 
     - name: Upload report
       uses: actions/upload-artifact@v4
