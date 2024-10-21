@@ -35,6 +35,9 @@ jobs:
           sudo apt-get install -y jq python3 python3-pip
           pip install -r requirements.txt
 
+      - name: Install jq
+        run: sudo apt install -y jq
+
       - name: Setup-Jmeter
         run: |
           sudo apt-get update
@@ -93,9 +96,9 @@ jobs:
           # jq -r '[.timeStamp, .elapsed, .label, .responseCode, .responseMessage, .success, .bytes, .sentBytes, .grpThreads, .allThreads, .URL, .Latency, .IdleTime, .Connect] | @csv' filtered_results.jtl > results.csv
 
           # Filter out ramp-up period and convert to CSV
-          PERCENTILE_90=$(jq -s 'sort_by(-timeStamp) | [int(length * 0.9)] timeStamp' ${{ env.WORKING_DIRECTORY }}/result1.jtl)
+          PERCENTILE_90=$(jq -s 'sort_by(.timeStamp) | .[int(length * 0.9)].timeStamp' ${{ env.WORKING_DIRECTORY }}/result1.jtl)
           # Filter out ramp-up period and convert to SV
-          ja --argison percentile90 "$PERCENTILE_90" select(•timeStamp › $percentile90) ${{ env.WORKING_DIRECTORY }}/result1.jtl
+          ja --argison percentile90 "$PERCENTILE_90" select(.timeStamp › $percentile90) ${{ env.WORKING_DIRECTORY }}/result1.jtl
           # Convert filtered_results.jtl to CSV
           jq -r '[.timeStamp, .elapsed, .label, .responseCode, .responseMessage, .success, .bytes, .sentBytes, .grpThreads, .allThreads, .URL, .Latency, .IdleTime, .Connect] | @csv' filtered_results.jtl > results.csv
 
