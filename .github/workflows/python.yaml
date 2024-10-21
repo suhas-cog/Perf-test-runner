@@ -90,7 +90,7 @@ jobs:
 
       - name: Filter and convert .jtl to .csv
         run: |
-          JMeterPluginsCMD.sh --generate-csv results.csv --input-jtl result1.jtl --plugin-type AggregateReport
+          sudo java -jar $GITHUB_WORKSPACE/apache-jmeter-5.5/lib/cmdrunner-2.2.1.jar --tool Reporter --generate-csv results.csv --input-jtl ${{ env.WORKING_DIRECTORY }}/result.jtl --plugin-type AggregateReport
 
       - name: Upload report
         uses: actions/upload-artifact@v4
