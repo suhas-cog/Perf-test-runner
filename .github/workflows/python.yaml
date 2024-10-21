@@ -2,7 +2,7 @@ name: Performance Testing
 
 on:
   workflow_dispatch:
-  push
+  push:
 
 jobs:
   performance_test:
