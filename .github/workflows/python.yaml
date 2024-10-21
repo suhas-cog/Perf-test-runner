@@ -73,6 +73,12 @@ jobs:
           gh_token: ${{ secrets.gh_token }}
           publish_dir: ${{ env.WORKING_DIRECTORY }}/graph_results
 
+       - name: Download artifact perf_test_results
+          uses: ./
+          with:
+            name: Artifact jtl 
+            path: ~/./
+
       - name: Filter and convert .jtl to .csv
         run: |
           # Filter out ramp-up period and convert to CSV
@@ -81,7 +87,7 @@ jobs:
           jq -r '[.timeStamp, .elapsed, .label, .responseCode, .responseMessage, .success, .bytes, .sentBytes, .grpThreads, .allThreads, .URL, .Latency, .IdleTime, .Connect] | @csv' filtered_results.jtl > results.csv
 
           # # Filter out ramp-up period and convert to CSV
-          # PERCENTILE_90=$(jq-s 'sort_by(-timeStamp) | [int(length * 0.9)] timeStamp' result1.jt1)
+          # PERCENTILE_90=$(jq -s 'sort_by(-timeStamp) | [int(length * 0.9)] timeStamp' result1.jt1)
           # # Filter out ramp-up period and convert to SV
           # ja --argison percentile90 "$PERCENTILE_90" select(•timeStamp › $percentile90) result1.jtl
           # # Convert filtered_results.jtl to CSV
